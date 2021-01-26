@@ -1,0 +1,47 @@
+---
+# tasks file for install docker engine
+# update system
+- name: update 
+  shell: |
+    sudo apt-get update
+
+- name: install packages 
+  shell: |
+    sudo apt-get install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg-agent \
+    software-properties-common
+
+# Add Docker’s official GPG key:
+- name: add docker key
+  shell: |
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    
+# Verify that you now have the key with the fingerprint
+- name: verify have the key
+  shell: |
+    sudo apt-key fingerprint 0EBFCD88
+
+# 
+- name: add apt repository
+  shell: |
+    sudo add-apt-repository \ "deb [arch=amd64] https://download.docker.com/linux/ubuntu \ $(lsb_release -cs) \ stable"
+
+- name: Install Docker package
+  apt: name={{ item }} state=latest update_cache=yes
+  with_items:
+    - docker-ce
+    - python-docker
+
+#- name: stop/start docker container
+#  docker_container:
+#    name:
+#    image: 
+#    state: 
+
+# deploy docker container
+#- name: deploy docker container
+#  shell: |
+#    docker run --name <name> -p <0000:0000> -it -d {{ repo }}/{{ image }}:{{ tag }} -c " {{ build_project }}/name.js --name <name> && tail -f /dev/null "

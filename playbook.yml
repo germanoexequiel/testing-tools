@@ -1,0 +1,13 @@
+---
+- name: running jenkins
+  hosts: localhost
+  become: true
+  become_user: root
+  roles:
+#    - base
+#    - docker
+#    - packer
+#    - java8
+#    - apache2
+#    - jenkins
+#    - mongo

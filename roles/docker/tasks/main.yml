@@ -1,0 +1,34 @@
+---
+# tasks file for docker
+- name: Install required software
+  apt: name={{ item }} state=latest update_cache=yes
+  with_items:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - software-properties-common
+
+- name: Adds official Docker GPG key
+  shell: |
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+- name: Adds official Docker GPG key
+  shell: |
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+- name: Adds official Docker repo
+  shell: |
+    add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+- name: Install Docker package
+  apt: name={{ item }} state=latest update_cache=yes
+  with_items:
+    - docker-ce
+    - python-docker
+
+- name: Move docker image directory
+  shell: |
+    service docker stop
+    mv /var/lib/docker /opt/
+    ln -s /opt/docker /var/lib/docker
+    service docker start

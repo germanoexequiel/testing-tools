@@ -1,0 +1,12 @@
+---
+# tasks file for apache2 server
+
+# install apache2 server
+- name: install apache2 software
+  apt: name={{item}} state=latest update_cache=yes
+  with_items:
+    - apache2
+
+# adding apache to the startup process
+- name: add apache2 to the startup process
+  shell: update-rc.d apache2 defaults

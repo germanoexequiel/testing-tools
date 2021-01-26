@@ -1,0 +1,19 @@
+---
+# tasks file for packer
+
+# ensure unzip is installed
+- name: ensure unzip is installed.
+  package: name=unzip state=present
+  tags:
+    - setup
+
+# download and unzip packer tool
+- name: download and unzip packer tool  
+  unarchive:
+    src: https://releases.hashicorp.com/packer/{{ packer_version }}/packer_{{ packer_version }}_linux_{{ packer_arch }}.zip
+    dest: "{{ packer_bin_path }}"
+    remote_src: true
+    creates: "{{ packer_bin_path }}/packer"  
+  tags:
+    - install
+
